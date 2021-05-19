@@ -15,20 +15,20 @@ data class Results(
 
 data class Shop(
     @SerializedName("coupon_urls")
-    val couponUrls: CouponUrls,
+    var couponUrls: CouponUrls,
     @SerializedName("id")
-    val id: String,
+    var id: String,
     @SerializedName("logo_image")
-    val logoImage: String,
+    var logoImage: String,
     @SerializedName("name")
-    val name: String,
+    var name: String,
     @SerializedName("address")
-    val address: String
+    var address: String
 ):Serializable//Serializableにすることでデータを丸ごとファイルに保存したり、別のActivityに渡すことができる
 
 data class CouponUrls(
     @SerializedName("pc")
     val pc: String,
     @SerializedName("sp")
-    val sp: String
+    var sp: String
 ):Serializable

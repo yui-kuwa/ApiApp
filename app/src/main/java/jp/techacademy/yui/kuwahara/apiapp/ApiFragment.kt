@@ -88,45 +88,6 @@ class ApiFragment: Fragment() {
         super.onResume()
 
         // ここから初期化処理を行う////////////////////////////////////////////////////////////////////
-        //ApiAdapterのお気に入り追加、削除用のメソッドの追加を行う
-        apiAdapter.apply {
-            onClickAddFavorite = { // Adapterの処理をそのままActivityに通知する
-                fragmentCallback?.onAddFavorite(it)
-            }
-            onClickDeleteFavorite = { // Adapterの処理をそのままActivityに通知する
-                fragmentCallback?.onDeleteFavorite(it.id)
-            }
-            // Itemをクリックしたとき    表示されたリスト1行をタップ（クリック）されたときに呼び出すメソッド
-            onClickItem = {
-                fragmentCallback?.onClickItem(it)
-            }
-        }
-        // RecyclerViewの初期化
-        recyclerView.apply {
-            adapter = apiAdapter
-            layoutManager = LinearLayoutManager(requireContext()) // 一列ずつ表示
-
-            addOnScrollListener(object: RecyclerView.OnScrollListener() { // Scrollを検知するListenerを実装する。これによって、RecyclerViewの下端に近づいた時に次のページを読み込んで、下に付け足す
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) { // dx はx軸方向の変化量(横) dy はy軸方向の変化量(縦) ここではRecyclerViewは縦方向なので、dyだけ考慮する
-                    super.onScrolled(recyclerView, dx, dy)
-                    if (dy == 0) { // 縦方向の変化量(スクロール量)が0の時は動いていないので何も処理はしない
-                        return
-                    }
-                    val totalCount = apiAdapter.itemCount // RecyclerViewの現在の表示アイテム数
-                    val lastVisibleItem = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition() // RecyclerViewの現在見えている最後のViewHolderのposition
-                    // totalCountとlastVisibleItemから全体のアイテム数のうちどこまでが見えているかがわかる(例:totalCountが20、lastVisibleItemが15の時は、現在のスクロール位置から下に5件見えていないアイテムがある)
-                    // 一番下にスクロールした時に次の20件を表示する等の実装が可能になる。
-                    // ユーザビリティを考えると、一番下にスクロールしてから追加した場合、一度スクロールが止まるので、ユーザーは気付きにくい
-                    // ここでは、一番下から5番目を表示した時に追加読み込みする様に実装する
-                    if (!isLoading && lastVisibleItem >= totalCount - 6) { // 読み込み中でない、かつ、現在のスクロール位置から下に5件見えていないアイテムがある
-                        updateData(true)
-                    }
-                }
-            })
-        }
-        swipeRefreshLayout.setOnRefreshListener {
-            updateData()  /*        大事！！！        */
-        }
         updateData()
     }
 

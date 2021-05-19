@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.kotlin.where
 import jp.techacademy.yui.kuwahara.apiapp.WebViewActivity.Companion.KEY_SHOP
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
     /*   by lazyは初期化を遅らせ、      */
     private val viewPagerAdapter by lazy { ViewPagerAdapter(this) }
 
-    private var mShop: Shop? = null
+    private var mFavoriteShop: FavoriteShop? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +61,17 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         intent.putExtra(KEY_SHOP, state)//shopを渡す
         startActivity(intent)
     }
+
+    //////////////////////////
+    /*override fun onClickItem2(url: String) {
+        WebViewActivity.start(this, url)
+        // intentオブジェクト生成、遷移画面定義
+        /*val intent = Intent(this, WebViewActivity::class.java)
+        // intentオブジェクトにショップの内容をプットする
+        val state = FavoriteShop()
+        intent.putExtra(KEY_SHOP, state)//shopを渡す
+        startActivity(intent)*/
+    }*/
     ///////////////////////////////////////////////////////////////////////////
 
     override fun onAddFavorite(shop: Shop) { // Favoriteに追加するときのメソッド(Fragment -> Activity へ通知する)

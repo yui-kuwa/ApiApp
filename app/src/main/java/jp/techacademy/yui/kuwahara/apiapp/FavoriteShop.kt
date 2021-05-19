@@ -5,7 +5,7 @@ import io.realm.RealmConfiguration
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class FavoriteShop: RealmObject(){
+open class FavoriteShop: RealmObject() {
     @PrimaryKey
     var id: String = ""
     var imageUrl: String = ""
@@ -13,8 +13,8 @@ open class FavoriteShop: RealmObject(){
     var address: String = ""
     var url: String = ""
 
-    companion object {
-        fun findAll(): List<FavoriteShop> = // お気に入りのShopを全件取得
+        companion object {     // お気に入りのShopを全件取得
+        fun findAll(): List<FavoriteShop> =
             Realm.getDefaultInstance().use { realm ->
                 realm.where(FavoriteShop::class.java)
                     .findAll().let {

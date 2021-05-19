@@ -20,7 +20,7 @@ class WebViewActivity : AppCompatActivity() {
 
     // お気に入り状態を取得
     //今開いているレストランのidを取ってき、お気に入りかお気に入りじゃないかの情報をとる
-    var isFavorite: Boolean? = null
+    var isFavorite: Boolean? = true
 
     //private val favoriteAdapter by lazy { FavoriteAdapter(requireContext()) }
 
@@ -33,6 +33,8 @@ class WebViewActivity : AppCompatActivity() {
         if(selectShop is Shop) {
             webView.loadUrl(selectShop.couponUrls.sp)
             isFavorite = FavoriteShop.findBy(selectShop.id) != null
+        }else{
+            webView.loadUrl(intent.getStringExtra(KEY_URL).toString())
         }
 
         //クリック処理
@@ -76,6 +78,10 @@ class WebViewActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_SHOP = "key_shop"
+        const val KEY_URL = "key_url"
+        fun start(activity: Activity, url: String) {
+            activity.startActivity(Intent(activity, WebViewActivity::class.java).putExtra(KEY_URL, url))
+        }
     }
 
     fun Update(shop: Shop){

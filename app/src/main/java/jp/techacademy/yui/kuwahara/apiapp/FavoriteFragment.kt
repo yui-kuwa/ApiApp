@@ -42,10 +42,11 @@ class FavoriteFragment: Fragment() {
             onClickDeleteFavorite = {
                 fragmentCallback?.onDeleteFavorite(it.id)
             }
-            // Itemをクリックしたとき     表示されたリスト1行をタップ（クリック）されたときに呼び出すメソッド
+            // Itemをクリックしたとき    表示されたリスト1行をタップ（クリック）されたときに呼び出すメソッド
             onClickItem = {
                 fragmentCallback?.onClickItem(it)
             }
+
         }
         // RecyclerViewの初期化
         recyclerView.apply {
@@ -55,6 +56,12 @@ class FavoriteFragment: Fragment() {
         swipeRefreshLayout.setOnRefreshListener {
             updateData()
         }
+        updateData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // ここから初期化処理を行う
         updateData()
     }
 
